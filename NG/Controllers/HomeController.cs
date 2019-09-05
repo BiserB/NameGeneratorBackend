@@ -23,9 +23,9 @@ namespace NG.Controllers
 
         public IActionResult GetName()
         {
-            string name = "Pesho";
+            string[] names = new string[] { "Pesho", "Gosho"};
 
-            return Json(name);
+            return Json(names);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
