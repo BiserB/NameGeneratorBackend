@@ -30,6 +30,16 @@ namespace NG.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORS",
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader();
+                });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<NGDbContext>(options =>  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -54,6 +64,7 @@ namespace NG.App
                 app.UseHsts();
             }
 
+            app.UseCors("CORS");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

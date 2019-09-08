@@ -18,6 +18,15 @@ namespace NG.App.Controllers
             this.dbContext = NGDbContext;
         }
 
+
+        [HttpGet("Fetch")]
+        public ActionResult<IEnumerable<string>> FetchNames()
+        {
+            var userNames = this.dbContext.Users.Select(u => u.UserName).ToList();
+
+            return userNames;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
