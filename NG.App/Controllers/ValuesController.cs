@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NG.Data;
+using NG.Services;
 
 namespace NG.App.Controllers
 {
@@ -11,18 +12,19 @@ namespace NG.App.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly NamesService namesService;
         private readonly NGDbContext dbContext;
 
-        public ValuesController(NGDbContext NGDbContext)
+        public ValuesController(NamesService namesService)
         {
-            this.dbContext = NGDbContext;
+            this.namesService = namesService;
         }
 
 
         [HttpGet("Fetch")]
-        public ActionResult<IEnumerable<string>> FetchNames()
+        public ActionResult<List<string>> FetchNames()
         {
-            var userNames = this.dbContext.Users.Select(u => u.UserName).ToList();
+            var userNames = this.namesService.FetchUsernames();
 
             return userNames;
         }
@@ -31,8 +33,8 @@ namespace NG.App.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            var userNames = this.dbContext.Users.Select(u => u.UserName).ToList();
-            
+            var userNames = this.namesService.FetchUsernames();
+
             return userNames;
         }
 

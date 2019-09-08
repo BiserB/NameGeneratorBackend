@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using NG.Entities;
 
 namespace NG.App.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -26,12 +27,12 @@ namespace NG.App.Controllers
         {
             var user = await this.userManager.FindByNameAsync(model.Username);
 
-            if (user != null && await this.userManager.CheckPasswordAsync(user, model.Password))
+            if (user == null || await this.userManager.CheckPasswordAsync(user, model.Password))
             {
-               return Ok(new { status = "pass is ok" });
+                return Unauthorized();                
             }
-
-            return Unauthorized();
+            
+            return Ok(new { status = "pass is ok" });
         }
     }
 }

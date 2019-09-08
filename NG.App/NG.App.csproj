@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NG.Data\NG.Data.csproj" />
+    <ProjectReference Include="..\NG.Services\NG.Services.csproj" />
   </ItemGroup>
 
 </Project>
