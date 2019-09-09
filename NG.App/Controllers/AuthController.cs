@@ -16,10 +16,12 @@ namespace NG.App.Controllers
     public class AuthController : ControllerBase
     {
         private UserManager<NGUser> userManager;
+        private SignInManager<NGUser> signInManager;
 
-        public AuthController(UserManager<NGUser> userManager)
+        public AuthController(UserManager<NGUser> userManager, SignInManager<NGUser> signInManager)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpPost("Login")]
@@ -27,12 +29,20 @@ namespace NG.App.Controllers
         {
             var user = await this.userManager.FindByNameAsync(model.Username);
 
-            if (user == null || await this.userManager.CheckPasswordAsync(user, model.Password))
+            if (user == null)
             {
                 return Unauthorized();                
             }
+
+            //var signInResult = await this.signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+            var signInResult = await this.signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+            if (!signInResult.Succeeded)
+            {
+                return Unauthorized();
+            }
             
-            return Ok(new { status = "pass is ok" });
+            return Ok();
         }
     }
 }

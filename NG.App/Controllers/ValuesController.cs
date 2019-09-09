@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NG.Data;
 using NG.Services;
@@ -19,7 +20,6 @@ namespace NG.App.Controllers
         {
             this.namesService = namesService;
         }
-
 
         [HttpGet("Fetch")]
         public ActionResult<List<string>> FetchNames()
