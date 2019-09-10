@@ -21,6 +21,7 @@ namespace NG.App.Controllers
             this.namesService = namesService;
         }
 
+        [Authorize]
         [HttpGet("Fetch")]
         public ActionResult<List<string>> FetchNames()
         {

@@ -25,6 +25,16 @@ namespace NG.App
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORS", builder => 
+                {
+                    builder.WithOrigins("http://localhost:42000")
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                });
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => false;
@@ -80,7 +90,7 @@ namespace NG.App
                 app.UseHsts();
             }
 
-            app.UseCors(o => o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors("CORS");
 
             app.UseHttpsRedirection();
 

@@ -24,6 +24,7 @@ namespace NG.App.Controllers
             this.signInManager = signInManager;
         }
 
+        [Authorize]
         [HttpPost("Login")]
         public async Task<ActionResult> Login(LoginModel model)
         {
