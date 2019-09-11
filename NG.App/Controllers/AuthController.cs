@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NG.App.Models.Identity;
 using NG.Entities;
+using System.Threading.Tasks;
 
 namespace NG.App.Controllers
 {
@@ -24,18 +19,16 @@ namespace NG.App.Controllers
             this.signInManager = signInManager;
         }
 
-        [Authorize]
         [HttpPost("Login")]
         public async Task<ActionResult> Login(LoginModel model)
         {
             var user = await this.userManager.FindByNameAsync(model.Username);
-
+            
             if (user == null)
             {
                 return Unauthorized();                
             }
 
-            //var signInResult = await this.signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             var signInResult = await this.signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
             if (!signInResult.Succeeded)
@@ -43,6 +36,18 @@ namespace NG.App.Controllers
                 return Unauthorized();
             }
             
+            return Ok();
+        }
+
+        [HttpPost("Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            var cookies = this.Response.Cookies;
+
+            this.Response.Cookies.Delete("MyCookie");
+
+            await this.signInManager.SignOutAsync();
+
             return Ok();
         }
     }

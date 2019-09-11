@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NG.Data;
 using NG.Services;
+using System.Collections.Generic;
 
 namespace NG.App.Controllers
 {
@@ -14,7 +10,6 @@ namespace NG.App.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly NamesService namesService;
-        private readonly NGDbContext dbContext;
 
         public ValuesController(NamesService namesService)
         {
@@ -25,6 +20,8 @@ namespace NG.App.Controllers
         [HttpGet("Fetch")]
         public ActionResult<List<string>> FetchNames()
         {
+            var context = this.HttpContext;
+
             var userNames = this.namesService.FetchUsernames();
 
             return userNames;
