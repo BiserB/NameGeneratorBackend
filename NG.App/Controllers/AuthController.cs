@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NG.App.Models.Identity;
 using NG.Entities;
@@ -39,13 +40,10 @@ namespace NG.App.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPost("Logout")]
         public async Task<ActionResult> Logout()
-        {
-            var cookies = this.Response.Cookies;
-
-            this.Response.Cookies.Delete("MyCookie");
-
+        {                        
             await this.signInManager.SignOutAsync();
 
             return Ok();

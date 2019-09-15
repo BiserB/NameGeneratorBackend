@@ -70,7 +70,6 @@ namespace NG.App
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
                 options.SlidingExpiration = true;
-                options.CookieName = "MyCookie";
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -83,8 +82,8 @@ namespace NG.App
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                InitialSeeder.Seed(app);
+                
+                app.InitialSeed();
             }
             else
             {

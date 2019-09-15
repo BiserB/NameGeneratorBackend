@@ -9,14 +9,20 @@ namespace NG.Data
 {
     public class NGDbContext: IdentityDbContext<NGUser>
     {
-        public NGDbContext(DbContextOptions<NGDbContext> options): base(options)
+
+        public NGDbContext(DbContextOptions<NGDbContext> options)
+            : base(options)
         {
 
         }
 
+        public DbSet<MaleFirstName> MaleFirstNames { get; set; }
+
         protected override void OnModelCreating(ModelBuilder mb)
         {
             base.OnModelCreating(mb);
+
+            mb.Entity<MaleFirstName>().Property(mfn => mfn.Id).ValueGeneratedNever();
         }
     }
 }

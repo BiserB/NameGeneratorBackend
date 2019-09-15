@@ -20,8 +20,6 @@ namespace NG.App.Controllers
         [HttpGet("Fetch")]
         public ActionResult<List<string>> FetchNames()
         {
-            var context = this.HttpContext;
-
             var userNames = this.namesService.FetchUsernames();
 
             return userNames;

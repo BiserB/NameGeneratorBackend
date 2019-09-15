@@ -17,9 +17,9 @@ namespace NG.Services
 
         public List<string> FetchUsernames()
         {
-            var userNames = this.dbContext.Users.Select(u => u.UserName).ToList();
-
-            return userNames;
+            var maleNames = this.dbContext.MaleFirstNames.Select(n => n.Name).ToList();
+            
+            return maleNames;
         }
     }
 }
