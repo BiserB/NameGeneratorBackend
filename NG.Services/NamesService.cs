@@ -17,9 +17,24 @@ namespace NG.Services
 
         public List<string> FetchUsernames()
         {
-            //var maleNames = this.dbContext.MaleFirstNames.Select(n => n.Name).ToList();
+            var usernames = this.dbContext.Users.Select(u => u.UserName).ToList();
             
-            return null;
+            return usernames;
+        }
+
+        public string CreateRandomName()
+        {
+            int firstNamesCount = dbContext.MaleNames.Count(n => n.NameTypeId == 1);
+            int lastNamesCount = dbContext.MaleNames.Count(n => n.NameTypeId == 2);
+
+            Random random = new Random();
+            int randomFirst = random.Next(1, firstNamesCount);
+            int randomLast = random.Next(firstNamesCount + 1, firstNamesCount + lastNamesCount);
+
+            string firstName = dbContext.MaleNames.First(n => n.Id == randomFirst).Record;
+            string lastName = dbContext.MaleNames.First(n => n.Id == randomLast).Record;
+            
+            return $"{firstName} {lastName}";
         }
     }
 }

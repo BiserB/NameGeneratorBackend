@@ -26,6 +26,7 @@ namespace NG.Data
 
             mb.Entity<Name>().HasKey(n => n.Id);
             mb.Entity<Name>().Property(n => n.Id).ValueGeneratedNever();
+            mb.Entity<Name>().Property(n => n.Popularity).HasColumnType("decimal(5,2)");
             mb.Entity<Name>().HasOne(n => n.Type)
                             .WithMany(t => t.Names)
                             .HasForeignKey(n => n.NameTypeId)

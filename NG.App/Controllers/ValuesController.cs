@@ -22,7 +22,16 @@ namespace NG.App.Controllers
         {
             var userNames = this.namesService.FetchUsernames();
 
-            return userNames;
+            return Ok(userNames);
+        }
+
+        [Authorize]
+        [HttpGet("Create")]
+        public JsonResult Createname()
+        {
+            string name = this.namesService.CreateRandomName();
+
+            return new JsonResult(name);
         }
 
         // GET api/values
