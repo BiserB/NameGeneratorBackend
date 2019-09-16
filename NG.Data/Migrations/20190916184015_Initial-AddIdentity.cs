@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NG.Data.Migrations
 {
-    public partial class InitialIdentityOnly : Migration
+    public partial class InitialAddIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

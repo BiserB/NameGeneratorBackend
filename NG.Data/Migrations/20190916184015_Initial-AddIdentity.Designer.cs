@@ -10,8 +10,8 @@ using NG.Data;
 namespace NG.Data.Migrations
 {
     [DbContext(typeof(NGDbContext))]
-    [Migration("20190915183841_Initial-IdentityOnly")]
-    partial class InitialIdentityOnly
+    [Migration("20190916184015_Initial-AddIdentity")]
+    partial class InitialAddIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

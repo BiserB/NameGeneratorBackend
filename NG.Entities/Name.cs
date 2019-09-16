@@ -5,12 +5,19 @@ using System.Text;
 
 namespace NG.Entities
 {
-    public class MaleFirstName
+    public class Name
     {
         public int Id { get; set; }
 
         [Required]
         [MaxLength(256)]
-        public string Name { get; set; }
+        public string Record { get; set; }
+
+        public decimal Popularity { get; set; }
+
+        public int NameTypeId { get; set; }
+
+        [Required]
+        public NameType Type { get; set; }
     }
 }

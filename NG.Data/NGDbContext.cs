@@ -16,13 +16,23 @@ namespace NG.Data
 
         }
 
-        public DbSet<MaleFirstName> MaleFirstNames { get; set; }
+        public DbSet<Name> MaleNames { get; set; }
+
+        public DbSet<NameType> NameTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
             base.OnModelCreating(mb);
 
-            mb.Entity<MaleFirstName>().Property(mfn => mfn.Id).ValueGeneratedNever();
+            mb.Entity<Name>().HasKey(n => n.Id);
+            mb.Entity<Name>().Property(n => n.Id).ValueGeneratedNever();
+            mb.Entity<Name>().HasOne(n => n.Type)
+                            .WithMany(t => t.Names)
+                            .HasForeignKey(n => n.NameTypeId)
+                            .OnDelete(DeleteBehavior.Restrict);
+
+            mb.Entity<NameType>().HasKey(nt => nt.Id);
+            mb.Entity<NameType>().Property(nt => nt.Id).ValueGeneratedNever();
         }
     }
 }

@@ -27,19 +27,22 @@ namespace NG.App.Infrastructure
 
                 await SeedUsers(dbContext, userManager);
 
-                await SeedNames(dbContext);
+                //SeedTypes(dbContext);
+
+                //SeedFirstNames(dbContext);
+
+                //SeedLastNames(dbContext);                
             }
         }
 
         private static async Task SeedUsers(NGDbContext dbContext, UserManager<NGUser> userManager)
-        {            
-
+        {
             if (!dbContext.Users.Any())
             {
                 NGUser user = new NGUser()
                 {
-                    UserName = "Pesho",
-                    Email = "demo@mail.bg",
+                    UserName = "Admin",
+                    Email = "admin@namegenerator.com",
                     SecurityStamp = Guid.NewGuid().ToString()
                 };
 
@@ -59,42 +62,75 @@ namespace NG.App.Infrastructure
                     }
                     Console.ResetColor();
                 }
-
             }
         }
 
-        private static async Task SeedNames(NGDbContext dbContext)
+        private static void SeedTypes(NGDbContext dbContext)
         {
-            if (dbContext.MaleFirstNames.Any())
-            {
-                return;
-            }
+            dbContext.NameTypes.Add(new NameType() { Id = 1, Type = "male-first" });
+            dbContext.NameTypes.Add(new NameType() { Id = 2, Type = "male-last" });
+            dbContext.SaveChanges();
+        }
 
+        private static void SeedFirstNames(NGDbContext dbContext)
+        {
             string directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             string basePath = Path.GetFullPath(Path.Combine(directoryPath, @"..\..\..\.."));
 
-            string fullPath = Path.Combine(basePath, @"NG.Files\male.csv");
+            string fullPath = Path.Combine(basePath, @"NG.Files\maleFirstNames.csv");
 
             string[] lines = File.ReadAllLines(fullPath);
 
-            List<MaleFirstName> names = new List<MaleFirstName>(lines.Length);
+            List<Name> names = new List<Name>(lines.Length);
 
             for (int i = 0; i < lines.Length; i++)
             {
                 int id = i + 1;
-                var name = new MaleFirstName()
+                var name = new Name()
                 {
                     Id = id,
-                    Name = lines[i]
+                    Record = lines[i],
+                    NameTypeId = 1
                 };
 
                 names.Add(name);
             }
 
-            dbContext.MaleFirstNames.AddRange(names);
+            dbContext.MaleNames.AddRange(names);
 
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
+        }                
+
+        private static void SeedLastNames(NGDbContext dbContext)
+        {
+            string directoryPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            string basePath = Path.GetFullPath(Path.Combine(directoryPath, @"..\..\..\.."));
+
+            string fullPath = Path.Combine(basePath, @"NG.Files\maleLastNames.csv");
+
+            string[] lines = File.ReadAllLines(fullPath);
+
+            List<Name> names = new List<Name>(lines.Length);
+
+            int id = dbContext.MaleNames.Last().Id;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var name = new Name()
+                {
+                    Id = ++id,
+                    Record = lines[i],
+                    NameTypeId = 2
+                };
+
+                names.Add(name);
+            }
+
+            dbContext.MaleNames.AddRange(names);
+
+            dbContext.SaveChanges();
         }
     }
 }

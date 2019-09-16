@@ -129,19 +129,6 @@ namespace NG.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("NG.Entities.MaleFirstName", b =>
-                {
-                    b.Property<int>("Id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MaleFirstNames");
-                });
-
             modelBuilder.Entity("NG.Entities.NGUser", b =>
                 {
                     b.Property<string>("Id")
@@ -193,6 +180,38 @@ namespace NG.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("NG.Entities.Name", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("NameTypeId");
+
+                    b.Property<decimal>("Popularity");
+
+                    b.Property<string>("Record")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NameTypeId");
+
+                    b.ToTable("MaleNames");
+                });
+
+            modelBuilder.Entity("NG.Entities.NameType", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NameTypes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -236,6 +255,14 @@ namespace NG.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("NG.Entities.Name", b =>
+                {
+                    b.HasOne("NG.Entities.NameType", "Type")
+                        .WithMany("Names")
+                        .HasForeignKey("NameTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }
