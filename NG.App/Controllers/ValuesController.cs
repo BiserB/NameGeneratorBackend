@@ -27,11 +27,20 @@ namespace NG.App.Controllers
 
         [Authorize]
         [HttpGet("Create")]
-        public JsonResult Createname()
+        public JsonResult CreateName()
         {
             string name = this.namesService.CreateRandomName();
 
             return new JsonResult(name);
+        }
+
+        [Authorize]
+        [HttpPost("CreateNames")]
+        public JsonResult CreateNames([FromBody]int count)
+        {
+            string[] names = this.namesService.CreateRandomNames(count);
+
+            return new JsonResult(names);
         }
 
         // GET api/values
