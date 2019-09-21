@@ -20,6 +20,15 @@ namespace NG.App.Controllers
             this.signInManager = signInManager;
         }
 
+
+        [HttpGet("IsLoggedIn")]
+        public async Task<ActionResult> IsLoggedIn()
+        {
+            bool isLoggedIn = await this.userManager.GetUserAsync(this.HttpContext.User) != null;
+            
+            return Ok(isLoggedIn);
+        }
+
         [HttpPost("Login")]
         public async Task<ActionResult> Login(LoginModel model)
         {
