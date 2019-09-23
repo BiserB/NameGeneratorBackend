@@ -11,6 +11,8 @@ using NG.Data;
 using NG.Entities;
 using NG.Services;
 using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace NG.App
 {
@@ -70,6 +72,11 @@ namespace NG.App
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.SlidingExpiration = true;
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    return Task.CompletedTask;
+                };
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
