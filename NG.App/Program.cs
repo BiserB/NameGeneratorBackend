@@ -13,7 +13,7 @@ namespace NG.App
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
-                .UseUrls("https://localhost:50000")
+                .UseUrls("https://localhost:55000")
                 .UseStartup<Startup>();
     }
 }
