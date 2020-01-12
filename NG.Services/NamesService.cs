@@ -47,13 +47,8 @@ namespace NG.Services
 
             for (int i = 0; i < count; i++)
             {
-                int randomFirst = random.Next(1, firstNamesCount);
-                int randomLast = random.Next(firstNamesCount + 1, firstNamesCount + lastNamesCount);
-
-                string firstName = dbContext.MaleNames.First(n => n.Id == randomFirst).Record;
-                string lastName = dbContext.MaleNames.First(n => n.Id == randomLast).Record;
-
-                names[i] = $"{firstName} {lastName}";
+                string name = this.CreateRandomName();
+                names[i] = name;
             } 
 
             return names;
